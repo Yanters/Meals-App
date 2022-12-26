@@ -1,12 +1,30 @@
+import { useLayoutEffect } from 'react';
 import { Image, Text, View, StyleSheet, ScrollView } from 'react-native';
+import IconButton from '../components/IconButton';
 import List from '../components/MealDetail/List';
 import Subtitle from '../components/MealDetail/Subtitle';
 import MealDetails from '../components/MealDetails';
 
 import { MEALS } from '../data/dummy-data';
 
-const MealDetailScreen = ({ route }) => {
+const MealDetailScreen = ({ route, navigation }) => {
   const { mealId } = route.params;
+
+  const headerButtonPressHandler = () => {
+    console.log('Favorite!');
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          icon='star'
+          color='#fff'
+          onPress={headerButtonPressHandler}
+        />
+      ),
+    });
+  }, [navigation, headerButtonPressHandler]);
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
