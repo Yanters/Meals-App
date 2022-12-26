@@ -7,19 +7,24 @@ import MealDetails from '../components/MealDetails';
 import { FavoritesContext } from '../store/context/favorites-context';
 
 import { MEALS } from '../data/dummy-data';
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavorite, removeFavorite } from '../store/redux/favorites';
 
 const MealDetailScreen = ({ route, navigation }) => {
   const { mealId } = route.params;
+  // const favoriteMealsCtx = useContext(FavoritesContext);
+  const favoriteMealsIds = useSelector((state) => state.favoriteMeals.ids);
+  const dispatch = useDispatch();
 
-  const favoriteMealsCtx = useContext(FavoritesContext);
-
-  const isFavorite = favoriteMealsCtx.ids.includes(mealId);
+  const isFavorite = favoriteMealsIds.includes(mealId);
 
   const changeFavoriteStatus = () => {
     if (isFavorite) {
-      favoriteMealsCtx.removeFavorite(mealId);
+      // favoriteMealsCtx.removeFavorite(mealId);
+      dispatch(removeFavorite({ id: mealId }));
     } else {
-      favoriteMealsCtx.addFavorite(mealId);
+      // favoriteMealsCtx.addFavorite(mealId);
+      dispatch(addFavorite({ id: mealId }));
     }
   };
 
